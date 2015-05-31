@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<body>
+<!-- <input type='checkbox' onclick='selectAll()' name='VoteOption1'> -->
+<div id='div'>
+</div>
+<script type="text/javascript">
+function selectAll(){
+	alert(2);
+	var a = document.getElementsByTagName("input");
+	if(a[0].checked){
+	for(var i = 0;i<a.length;i++){
+	if(a[i].type == "checkbox") a[i].checked = false;
+	}
+	}
+	else{
+	for(var i = 0;i<a.length;i++){
+	if(a[i].type == "checkbox") a[i].checked = true;
+	}
+	}
+	}
+		$(function(){
+			var html = "<table>";
+			html+="<tr><td><input type='checkbox' onclick='selectAll()' name='VoteOption1'></td><td style='width:200px;'>路线</td><td>路线编码</td></tr>"
+			$.ajax({
+				type:"GET",
+				url:"http://localhost:8080/ssi/login_lx.action",
+				cache : false,
+				async : false,
+				dataType : 'json',
+				success:function(data){
+					for(var i =0 ; i<data.length; i++){
+						/* $('#aa').accordion('add', {
+							title: data[i].PertainEW+"("+data[i].PertainEWCode+")",
+							content: '',
+							selected: false
+						}); */
+						var select = "<select id='test'  name=''>"+  
+						  "<option   value='1'>text1</option>"+  
+						  "<option   value='2'>text2</option>"+  
+						 "</select>";
+						var d = "<div style=' float:left'>"+data[i].PertainEW+"</div><div id='men"+i+"' style='float:left;margin-right:0px;visibility:hidden;'>"+select+"</div>"
+						//html+="<tr onmousemove=\"document.all.men"+i+".style.visibility=''\" onmouseout=\"document.all.men"+i+".style.visibility='hidden'\"><td><input type='checkbox' name='VoteOption1'></td><td>"+d+"</td><td>"+data[i].PertainEWCode+"</td></tr>"
+						html+="<tr ><td><input type='checkbox' name='VoteOption1' value="+i+"></td><td>"+d+"</td><td>"+data[i].PertainEWCode+"</td></tr>"
+					}
+					}
+				});
+			html+="</table>";
+			$('#div').html(html);
+		});
+</script>
+</body>
+</html>

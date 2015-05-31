@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+<constant name="struts.i18n.encoding" value="gbk"></constant>
+	<constant name="struts.action.extension" value="action,,do"></constant>
+	<package name="default" namespace="/" extends="struts-default">
+	<action name="login" class="loginAction">
+	<result>/login.jsp</result>
+	</action>
+	<action name="login_*" class="com.mybatisspring.action.TestAction" method="{1}">
+	<result name="ok">/index.jsp</result>
+	</action>
+	<action name="login2_*" class="com.mybatisspring.action.TestAction2" method="{1}">
+	</action>
+	</package>
+<constant name="struts.objectFactory.spring.autoWire" value="type"></constant>
+</struts>    

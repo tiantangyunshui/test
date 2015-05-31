@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.mybatis.entity.Users" alias="Users"/>
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/springmvctest1"/>
+				<property name="username" value="root"/>
+				<property name="password" value="1234"/>
+			</dataSource>
+		</environment>
+		
+		 <environment id="to">
+            <transactionManager type="JDBC">
+            </transactionManager>
+            <dataSource type="POOLED" >
+                <property name="driver" value="${driver}" />
+                <property name="url" value="jdbc:hitachi:hirdb://DBID=22200,DBHOST=192.168.11.113" />
+                <property name="username" value="${username}" />
+                <property name="password" value="${password}" />
+            </dataSource>
+        </environment>
+	</environments>
+	<mappers>
+		<!-- 基于配置文件 -->
+		<mapper resource="com/mybatis/entity/User_mappper.xml" />
+		<!-- 基于注解 -->
+		<!-- <mapper class="com.mybatis.dao.UserMapper" />  -->
+	</mappers>
+	
+</configuration>

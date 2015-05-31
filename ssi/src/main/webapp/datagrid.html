@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Context Menu on DataGrid - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="easyui/demo/demo.css">
+	<script type="text/javascript" src="easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<a href="/class.asp?class_ID=272" onmousemove="document.all.menulayer_1.style.visibility=''" onmouseout="document.all.menulayer_1.style.visibility='hidden'">關於我們</a>
+<a class='sss' id ='sd'>qwewr</a>
+<div id="menulayer_1"  class="menulayer" style="visibility: hidden; padding: 5px 0px 0px 9px;">About Us, About Blazing Flames.</div>
+<div id = 'div' style=" float:left;width:100px;height:20px;border:1px solid;">1</div><div style=" float:left">2</div>
+<div style=" float:left">1<div style=" float:left">2</div></div>
+	<h2>Context Menu on DataGrid</h2>
+	<p>Right click on the header of DataGrid to display context menu.</p>
+	<div style="margin:20px 0;"></div>
+	<table id="dg"></table>
+	<br>
+	<table id="lx"></table>
+	<script type="text/javascript">
+		$(function(){
+			$('#sd').click(function(){
+				document.all.menulayer_1.style.visibility='';
+				alert(24);
+			});
+			$('.sss').mouseover(function(){
+				console.log('this',this);
+				document.all.menulayer_1.style.visibility='';
+			});
+			$('.sss').mouseout(function(){
+				document.all.menulayer_1.style.visibility='hidden';
+			});
+			
+			$("#div").hover(function(){
+			   // alert(1);
+			  $("#div").css("visibility","none")
+			 },
+			function(){
+				 $("#div").css("visibility","block")
+			 });
+			$('#dg').datagrid({
+				url: 'datagrid_data1.json',
+				method: 'get',
+				title: 'Context Menu on DataGrid',
+				iconCls: 'icon-save',
+				width: 700,
+				height: 250,
+				fitColumns: true,
+				singleSelect: true,
+				columns:[[
+					{field:'itemid',title:'Item ID',width:80},
+					{field:'productid',title:'Product ID',width:120},
+					{field:'listprice',title:'List Price',width:80,align:'right'},
+					{field:'unitcost',title:'Unit Cost',width:80,align:'right'},
+					{field:'attr1',title:'Attribute',width:250},
+					{field:'status',title:'Status',width:60,align:'center'}
+				]],
+				onCheck:function(index,row){
+					alert(index);					
+				},
+				onHeaderContextMenu: function(e, field){
+					e.preventDefault();
+					if (!cmenu){
+						createColumnMenu();
+					}
+					cmenu.menu('show', {
+						left:e.pageX,
+						top:e.pageY
+					});
+				}
+			});
+			
+			//路线
+			$('#lx').datagrid({
+				url: 'http://localhost:8080/ssi/login_lx.action',
+				method: 'get',
+				title: '路线datagrid',
+				iconCls: 'icon-save',
+				width: 700,
+				height: 250,
+				fitColumns: true,
+				singleSelect: true,
+				onSelect:function(index,row){
+					alert(index);					
+				},
+				columns:[[
+					{field:'a',title:'操作',width:15,formatter:function(value,row,index){
+						return "<input type='checkbox' name='VoteOption1'>";
+					}},
+					{field:'RN',title:'Item ID',width:40},
+					{field:'PertainEW',title:'路线',width:100,formatter:function(value,row,index){
+						var select = "<select id='test'  name=''>"+  
+						  "<option   value='1'>text1</option>"+  
+						  "<option   value='2'>text2</option>"+  
+						 "</select>";
+						var html = "<div style=' float:left'>"+value+"</div><div class='men"+index+"' style='float:left;margin-right:0px;visibility:'';'>"+select+"</div>"
+						return html;
+					}},
+					{field:'PertainEWCode',title:'路线编码',width:80,align:'right'}
+				]]
+			});
+		});
+		var cmenu;
+		function createColumnMenu(){
+			cmenu = $('<div/>').appendTo('body');
+			cmenu.menu({
+				onClick: function(item){
+					if (item.iconCls == 'icon-ok'){
+						$('#dg').datagrid('hideColumn', item.name);
+						cmenu.menu('setIcon', {
+							target: item.target,
+							iconCls: 'icon-empty'
+						});
+					} else {
+						$('#dg').datagrid('showColumn', item.name);
+						cmenu.menu('setIcon', {
+							target: item.target,
+							iconCls: 'icon-ok'
+						});
+					}
+				}
+			});
+			var fields = $('#dg').datagrid('getColumnFields');
+			for(var i=0; i<fields.length; i++){
+				var field = fields[i];
+				var col = $('#dg').datagrid('getColumnOption', field);
+				cmenu.menu('appendItem', {
+					text: col.title,
+					name: field,
+					iconCls: 'icon-ok'
+				});
+			}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Basic Accordion - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="easyui/demo/demo.css">
+	<script type="text/javascript" src="easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+	<div style="margin:20px 0 10px 0;"></div>
+	<div class="easyui-accordion" style="width:500px;height:300px;">
+	
+		<div title="About" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+			<p>Accordion is a part of easyui framework for jQuery. It lets 
+			you define your accordion component on web page more easily.</p>
+		</div>
+		<div title="Help" data-options="iconCls:'icon-help'" style="padding:10px;">
+			<p>The accordion allows you to provide multiple panels and display one or more at a time. 
+			Each panel .</p> 		
+		</div>
+		<div title="TreeMenu" data-options="iconCls:'icon-search'" style="padding:10px;">
+			asfaff
+		</div>
+	</div>
+	<hr>
+	<div id="aa" class="easyui-accordion" style="width:300px;height:500px;">
+    <!-- <div title="Title1" data-options="iconCls:'icon-save'" style="overflow:auto;padding:10px;">
+        <h3 style="color:#0099FF;">Accordion for jQuery</h3>
+        <p>Accordion is a part of easyui framework for jQuery. 
+        It lets you define your accordion component on web page more easily.</p>
+    </div>
+    <div title="Title2" data-options="iconCls:'icon-reload',selected:true" style="padding:10px;">
+        content2
+    </div>
+    <div title="Title3">
+        content3
+    </div> -->
+</div>
+
+<div id='ww'>
+
+</div>
+<script type="text/javascript">
+window.onload = function(){
+var p = $('#aa').accordion('getSelected');
+
+$.ajax({
+	type:"GET",
+	url:"http://localhost:8080/ssi/login_lx.action",
+	cache : false,
+	async : false,
+	dataType : 'json',
+	success:function(data){
+		for(var i =0 ; i<data.length; i++){
+			$('#aa').accordion('add', {
+				title: data[i].PertainEW+"("+data[i].PertainEWCode+")",
+				content: '',
+				selected: false
+			});
+		}
+		}
+	});
+
+$('#aa').accordion({
+	onSelect:function(title,index){
+		var sss = title.split('(')[1];
+		var roadcode = sss.split(')')[0].substr(4,sss.length-2);
+		$.ajax({
+			type:"GET",
+			url:"http://localhost:8080/ssi/login_ld.action?roadcode="+roadcode,
+			cache : false,
+			async : false,
+			dataType : 'json',
+			success:function(data){
+				console.log(data);
+				var html = '';
+				for(var i =0 ; i<data.length; i++){
+					html+=data[i].ROADCODE+"<br>";
+
+				}
+					$('#aa').accordion('getSelected').html(html);
+				}
+			});
+
+		console.log('this8s',$('#aa').accordion('getSelected'));
+		console.log('ddd',title);
+		
+	}
+});
+var p = $('#aa').accordion('getSelected');
+if (p){
+	var index = $('#aa').accordion('getPanelIndex', p);
+	alert(index);
+}
+$('#ww').html('wewe');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="map2">
+	
+	<select id="queryListLx"  resultType="hashmap" >
+		SELECT ROW_NUMBER()OVER(ORDER BY (CONVERT(int,ZDNum))) AS RN,PertainEW,PertainEWCode FROM ( select * from MXRoadList ) AS qd
+	</select>
+	<select id="queryListLd" parameterType="String" resultType="hashmap" >
+		SELECT RN,TEMP.* FROM (SELECT ROW_NUMBER()OVER(ORDER BY (select 0)) AS RN,* FROM ( 
+		select * from [GPSROAD] where Replace(Replace(substring(roadcode,1,LEN(roadcode)-6),'T','S'),'H','G')=#{roadcode} ) 
+		AS qd) TEMP 
+	</select>
+</mapper>
