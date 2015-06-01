@@ -24,7 +24,7 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
 		<property name="url" value="jdbc:sqlserver:// 211.101.37.235:1433;DatabaseName=EXPRESSWAYDATABASE_110000_2012NEW" />
-		<property name="username" value="sa" />
+		<property name="username" value="" />
 		<property name="password" value="hdsx@68714962" />
 	</bean>
 
